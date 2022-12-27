@@ -1,0 +1,9 @@
+.addnav {
+  color: black;
+  background: repeating-linear-gradient(pink,skyblue)
+}
+.form{
+  background-color: rgb(230, 231, 222);
+  padding: 20px;
+  color: rgb(0, 0, 0);
+}
