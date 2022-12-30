@@ -3,48 +3,32 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
-    <div className="">
-      <div>
-       
-      </div>
-
-      <div className="row mx-1 navbar">
-        {/* Nav brand */}
-        <div className="col-lg-4 col-xl-4 logo">
-          <a className="navbar-brand" href="#">
-            <h2>Contacts</h2>
-          </a>
+    <div className="row p-2">
+        {/* col 1 navbar */}
+        <div className="bg-light text-center col-sm-12 mt-1 col-lg-4 col-md-4">
+          <h1 className="navbar-brand">
+            Contacx
+          </h1>
         </div>
-        {/* Search */}
-        <div className="col-lg-4 col-xl-4 text-center">
-          <form action="" className="d-flex mx-2" role="search">
+        {/* col2 Serch bar*/}
+        <div className="bg-light mt-1 col-sm-12 col-lg-4 col-md-4">
+          <form className="d-flex">
             <input
               className="form-control me-2"
               type="search"
-              placeholder="search"
-              name=""
-              id=""
+              placeholder="Search"
+              aria-label="Search"
             />
-            <button className="btn btn-outline-success" type="submit">
+            <button class="btn btn-outline-success" type="submit">
               Search
             </button>
           </form>
         </div>
-        {/* Add User */}
-        <div className="col-lg-4 col-xl-4 mt-2 gap-1 d-flex d-flex">
-          <div className="ms-auto">
-            <Link to={`/add-contact`} className="btn btn-dark ">
-              Create New Contact
-            </Link>
-          </div>
+        {/* col3 */}
+        <div className="bg-light text-center mt-1 col-sm-12 col-lg-4 col-md-4">
+          <Link to={`/add-contact`} className="btn btn-dark">Create New Contact</Link>
         </div>
-
-        <nav className="navbar navbar-primary bg-light d-flex ">
-          <div> </div>
-          {/* search */}
-        </nav>
       </div>
-    </div>
   );
 }
 

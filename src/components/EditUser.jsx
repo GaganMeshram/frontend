@@ -1,46 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import "../css/App.css";
 import axios from "axios";
 import { URL } from "../App";
-import AddContactNavbar from "./AddContactNavbar";
+import EditContactNavbar from "./EditContactNavbar";
 import Footer from "./Footer";
 
-function AddUser() {
+function AddUser(props) {
+  const navigation = useNavigate();
+  const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const [data, setData] = useState({
+    name: "",
+    lastname: "",
+    phoneNumber: "",
+    age: "",
+  });
 
-  const [name, setName] = useState("");
-  const [Lname, setLname] = useState("");
-  const [age, setAge] = useState(null);
-  const [phone, setPhone] = useState(null);
+  useEffect(() => {
+    setData(location.state);
+  }, []);
 
-  const sendData = (e) => {
-    setLoading(true);
-    e.preventDefault();
-
-    axios
-      .post(URL, {
-        name: name,
-        lastname: Lname,
-        phoneNumber: phone,
-        age: age,
-      })
-      .then(() => {
-        setName("");
-        setLname("");
-        setAge("");
-        setPhone("");
-        setLoading(false);
-        navigate("/");
-      })
-      .catch((error) => setError(error));
+  const updateData = (value) => {
+    setData({ ...data, ...value });
   };
-
-  if (loading) {
-    return <p>Please wait...</p>;
-  }
 
   if (error) {
     return (
@@ -53,24 +37,45 @@ function AddUser() {
     );
   }
 
+  if (loading) {
+    return <p className="text-warning">Please wait...</p>;
+  }
+
+  const sendData = (e) => {
+    e.preventDefault();
+    const updatedData = {
+      name: data.name,
+      lastname: data.lastname,
+      phoneNumber: data.phoneNumber,
+      age: data.age,
+    };
+    axios
+      .patch(`${URL}/${data._id}`, updatedData)
+      .then(() => {
+        setLoading(true);
+        navigation('/')
+        
+        
+      })
+      .catch((err) => setError(err));
+  };
+
   return (
-    
     <div className="container-fluid">
-      {/* Navbar */}
-      <AddContactNavbar></AddContactNavbar>
-      
+      {/* navbar */}
+     <EditContactNavbar/>
+
+
       {/* form */}
       <div className="container my-5">
-        <form onSubmit={sendData} className="shadow rounded-3 form p-5 bg-info">
+        <form onSubmit={sendData} className="shadow rounded-3 form p-5 bg-secondary">
           <div className="mb-3">
             <label htmlFor="" className="form-label">
               Name
             </label>
             <input
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-              value={name}
+              value={data.name}
+              onChange={(e) => updateData({ name: e.target.value })}
               type="text"
               className="form-control"
             />
@@ -78,10 +83,8 @@ function AddUser() {
           <div className="mb-3">
             <label className="form-label">Last Name</label>
             <input
-              onChange={(e) => {
-                setLname(e.target.value);
-              }}
-              value={Lname}
+              value={data.lastname}
+              onChange={(e) => updateData({ lastname: e.target.value })}
               type="text"
               className="form-control"
             />
@@ -91,10 +94,8 @@ function AddUser() {
               Age
             </label>
             <input
-              onChange={(e) => {
-                setAge(e.target.value);
-              }}
-              value={age}
+              value={data.age}
+              onChange={(e) => updateData({ age: e.target.value })}
               type="age"
               className="form-control"
             />
@@ -104,25 +105,22 @@ function AddUser() {
               Phone Number
             </label>
             <input
-              onChange={(e) => {
-                setPhone(e.target.value);
-              }}
-              value={phone}
+              value={data.phoneNumber}
+              onChange={(e) => updateData({ phoneNumber: e.target.value })}
               type="phone"
               className="form-control"
             />
           </div>
-          <div id="emailHelp" className="form-text">
+          <div id="emailHelp" className="form-text text-dark">
             We'll never share your email with anyone else.
           </div>
-          <button type="submit" className="btn btn-primary">
-            Submit
+          <button type="submit" className="btn btn-dark">
+            Update
           </button>
         </form>
       </div>
-
-      {/* Footer */}
       <Footer></Footer>
+      
     </div>
   );
 }
