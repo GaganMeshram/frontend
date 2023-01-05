@@ -33,7 +33,7 @@ function Footer() {
         </div>
         <div className="text-white col">
           <div class="text-center p-3">
-            © 2020 Copyright:
+            © 2023 Copyright:
             <a className="mx-1" href="mailto:gmeshram774@gmail.com?subject=Regarding%20Job%20Opening%20At&body=Hello%20Gagan%2C%0A%0A%0AThanks%0AYour%20Name">
               GaganMeshram.com
             </a>
